@@ -9,7 +9,10 @@ pip3 install -r requirements.txt
 ```
 
 Then, download the LLM model and place it in the `models` directory:
+## groovy model:
 - LLM: default to [ggml-gpt4all-j-v1.3-groovy.bin](https://gpt4all.io/models/ggml-gpt4all-j-v1.3-groovy.bin). If you prefer a different GPT4All-J compatible model, just download it and reference it in your `.env` file.
+## vicuna model:
+- LLM: [ggml-vic13b-q5_1.bin](https://huggingface.co/eachadea/ggml-vicuna-13b-1.1/blob/main/ggml-vic13b-q5_1.bin)
 
 Copy the `example.env` template into `.env`
 ```shell
@@ -58,6 +61,15 @@ You can ingest as many documents as you want, and all will be accumulated in the
 If you want to start from an empty database, delete the `db` folder.
 
 Note: during the ingest process no data leaves your local environment. You could ingest without an internet connection, except for the first time you run the ingest script, when the embeddings model is downloaded.
+
+
+# How does it work?
+
+Selecting the right local models and the power of LangChain you can run the entire pipeline locally, without any data leaving your environment, and with reasonable performance.
+
+loader.py uses LangChain tools to parse the document and create embeddings locally using HuggingFaceEmbeddings (SentenceTransformers). It then stores the result in a local vector database using Chroma vector store.
+logic.py uses a local LLM based on GPT4All-J or LlamaCpp to understand questions and create answers. The context for the answers is extracted from the local vector store using a similarity search to locate the right piece of context from the docs.
+GPT4All-J wrapper was introduced in LangChain 0.0.162.
 
 
 # System Requirements

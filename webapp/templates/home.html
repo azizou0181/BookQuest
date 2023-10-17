@@ -1,0 +1,77 @@
+<style>
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f5f5f5;
+    }
+
+    .form-container {
+        width: 400px;
+        padding: 20px;
+        background-color: #ffffff;
+        border-radius: 5px;
+        box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        color: #333333;
+        font-weight: bold;
+    }
+
+    .form-group input[type="text"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #dddddd;
+        border-radius: 3px;
+    }
+
+    .btn {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        background-color: #4caf50;
+        color: #ffffff;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+    }
+
+    .result {
+        margin-top: 20px;
+        padding: 10px;
+        background-color: #eeeeee;
+        border-radius: 3px;
+    }
+
+    .result p {
+        margin: 0;
+        color: #333333;
+    }
+</style>
+
+<div class="form-container">
+    <form method="POST" action="{% url 'home' %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="query">Query:</label>
+            <input type="text" id="query" name="query" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+    {% if result %}
+        <div class="result">
+            <p>Result: {{ result }}</p>
+        </div>
+    {% endif %}
+
+    <a href="{% url 'ingest_documents' %}" class="btn-ingest">Ingest Documents</a>
+</div>
